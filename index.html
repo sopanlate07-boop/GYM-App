@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Workout Guide — Premium Gym Dashboard</title>
+  <link rel="icon" type="image/png" href="assets/muscle_anatomy.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0e0e15">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="assets/muscle_anatomy.png">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- Background Decorative Glowing Aura -->
+  <div class="glow-orb" id="glow-orb-left"></div>
+  <div class="glow-orb" id="glow-orb-right"></div>
+
+  <!-- Main Grid Dashboard Container -->
+  <div class="dashboard-container">
+    
+    <!-- Top Interactive Control Center -->
+    <header class="control-center">
+      <div class="logo-area">
+        <h1>Ultimate Workout Guide</h1>
+        <p>7 Sections • Step-by-Step Gym Companion • English-Marathi Guide</p>
+      </div>
+
+      <!-- Quick Metrics and Global Search -->
+      <div class="action-dock">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="global-search" placeholder="Search exercises, muscles, equipment..." oninput="handleSearch()">
+          <button class="clear-search-btn" id="clear-search" onclick="clearSearch()">×</button>
+        </div>
+
+        <div class="theme-switcher">
+          <span class="theme-icon">Theme</span>
+          <select id="theme-select" class="theme-select" aria-label="Change dashboard theme" onchange="changeTheme(this.value)">
+            <option value="pro-dark">Pro Dark</option>
+            <option value="midnight-blue">Midnight Blue</option>
+            <option value="emerald-energy">Emerald Energy</option>
+            <option value="crimson-power">Crimson Power</option>
+            <option value="royal-purple">Royal Purple</option>
+            <option value="sunrise-gold">Sunrise Gold</option>
+            <option value="arctic-light">Arctic Light</option>
+            <option value="carbon-neon">Carbon Neon</option>
+          </select>
+        </div>
+
+        <!-- Floating Interactive Progress Bar -->
+        <div class="global-progress-card">
+          <div class="progress-info">
+            <span class="progress-label">Workout Progress</span>
+            <span class="progress-percentage" id="global-percentage">0%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="global-progress-fill"></div>
+          </div>
+          <div class="progress-ratio" id="global-ratio">0/52 completed</div>
+        </div>
+
+        <!-- Integrated Rest Timer Widget -->
+        <div class="rest-timer-widget">
+          <div class="timer-display">
+            <span class="timer-icon">⏳</span>
+            <span class="timer-countdown" id="timer-time">01:00</span>
+          </div>
+          <div class="timer-controls">
+            <button class="timer-btn play-btn" id="timer-toggle-btn" onclick="toggleTimer()">Start Rest</button>
+            <select class="timer-select" id="timer-duration" onchange="resetTimerFromSelect()">
+              <option value="30">30s Rest</option>
+              <option value="60" selected>60s Rest</option>
+              <option value="90">90s Rest</option>
+              <option value="120">2m Rest</option>
+            </select>
+            <button class="timer-btn reset-btn" onclick="resetTimer()">↺</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sticky Tab Navigation -->
+    <nav class="tabs-wrap">
+      <button class="tab-btn active" data-group="shoulder" onclick="showGroup('shoulder')">💪 Shoulder</button>
+      <button class="tab-btn" data-group="triceps"  onclick="showGroup('triceps')">🦾 Triceps</button>
+      <button class="tab-btn" data-group="legs"     onclick="showGroup('legs')">🦵 Legs</button>
+      <button class="tab-btn" data-group="abs"      onclick="showGroup('abs')">🔥 Abs</button>
+      <button class="tab-btn" data-group="back"     onclick="showGroup('back')">🏋️ Back</button>
+      <button class="tab-btn" data-group="chest"    onclick="showGroup('chest')">💙 Chest</button>
+      <button class="tab-btn" data-group="bonus"    onclick="showGroup('bonus')">🧘 Bonus</button>
+      <button class="tab-btn tab-planner-glow" data-group="planner" onclick="showGroup('planner')">📅 Planner &amp; Logs</button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-body">
+
+      <!-- ==================== SHOULDER WORKOUT ==================== -->
+      <section id="shoulder" class="workout-section active">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-shoulder">Shoulder Workout</h2>
+            <div class="section-subtitle">Anterior, Medial & Posterior Deltoids • Trapezius • Serratus Anterior</div>
+          </div>
+          <div class="section-badge-progress badge-shoulder" id="progress-badge-shoulder">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-shoulder"></div>Deltoids</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Biceps</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Serratus Anterior</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Trapezius</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-shoulder" data-name="alternate dumbbell press" data-equip="dumbbell" data-muscle="anterior & medial deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-1" onchange="trackProgress('sh-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">Alternate Dumbbell Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-1', 'Alternate Dumbbell Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit on a bench with back support or on a seat.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Start with both dumbbells at shoulder level.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Press one dumbbell overhead until arm is straight.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Slowly lower and repeat with other arm.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">5</div>
+                <span>Keep your <strong class="vocab-highlight" onclick="showVocab('abs')">abs</strong> engaged throughout the exercise.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Anterior &amp; Medial Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-shoulder" data-name="bent-over lateral raise" data-equip="dumbbell" data-muscle="rear posterior deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-2" onchange="trackProgress('sh-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Bent-Over Lateral Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-2', 'Bent-Over Lateral Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand feet shoulder-width apart; bend forward at hips.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Begin to bend your elbows slightly.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Palms facing each other, raise dumbbells to sides until parallel to floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Slowly lower to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Rear (Posterior) Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-shoulder" data-name="seated military press" data-equip="barbell" data-muscle="deltoid heads trapezius">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-3" onchange="trackProgress('sh-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Seated Military Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-3', 'Seated Military Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit on bench with back support.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Grasp barbell slightly wider than shoulder-width.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Unlock elbows and press bar up over head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Press until arms locked out overhead.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">5</div>
+                <span>Return to just above shoulder level and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>All Three Deltoid Heads • Trapezius</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-shoulder" data-name="behind-the-neck press" data-equip="barbell" data-muscle="medial & posterior deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-4" onchange="trackProgress('sh-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">Behind-The-Neck Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-4', 'Behind-The-Neck Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit on bench with back straight.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Grasp barbell with a wide grip.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Lift and press bar behind head until arms locked out.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Return to just above shoulder level and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Medial &amp; Posterior Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-shoulder" data-name="side lateral raise" data-equip="dumbbell" data-muscle="medial side deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-5" onchange="trackProgress('sh-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Side Lateral Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-5', 'Side Lateral Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand holding dumbbells at sides.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Keep slight bend in elbows; raise arms out to sides.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Raise until dumbbells are level with shoulders.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Pause, descend to start, repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Medial (Side) Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-shoulder" data-name="barbell front raise" data-equip="barbell" data-muscle="anterior front deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-6" onchange="trackProgress('sh-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Barbell Front Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-6', 'Barbell Front Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand feet shoulder-width apart; grasp barbell with overhand grip.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Elbows locked, raise barbell in front of body until shoulder height.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Anterior (Front) Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 7 -->
+          <div class="ex-card card-shoulder" data-name="alternate front raise" data-equip="dumbbell" data-muscle="anterior deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-7" onchange="trackProgress('sh-7')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">07</div>
+              <div class="ex-name">Alternate Front Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-7', 'Alternate Front Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand back straight; grasp dumbbell overhand at side.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Elbow locked, raise dumbbell to shoulder level.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower and repeat with other arm.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Anterior Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 8 -->
+          <div class="ex-card card-shoulder" data-name="low-pulley raise" data-equip="cable" data-muscle="medial deltoids serratus anterior">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-sh-8" onchange="trackProgress('sh-8')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">08</div>
+              <div class="ex-name">Low-Pulley Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('sh-8', 'Low-Pulley Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-sh">CABLE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand shoulder next to low pulley; grasp handle with outside hand.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Arm straight, lift handle out to side until shoulder height.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Medial Deltoids • Serratus Anterior</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-sh">
+          <h3 class="text-shoulder">⚡ Shoulder Form &amp; Alignment Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-sh">
+              <div class="showroom-icon">🏋️</div>
+              <h4>Overhead Pressing Arc</h4>
+              <p>Drive weights vertically. Keep abs engaged, feet grounded, and neck neutral. Lock out at the top without shrugging.</p>
+              <div class="showroom-metric text-shoulder">Target: Anterior &amp; Medial Deltoids</div>
+            </div>
+            <div class="showroom-card card-glow-sh">
+              <div class="showroom-icon">↔️</div>
+              <h4>Lateral Raising Plane</h4>
+              <p>Raise arms out to sides in a wide arc. Maintain a slight elbow bend. Lead with elbows to isolate the lateral head.</p>
+              <div class="showroom-metric text-shoulder">Target: Medial Deltoids</div>
+            </div>
+            <div class="showroom-card card-glow-sh">
+              <div class="showroom-icon">🔄</div>
+              <h4>Rear Flye Extension</h4>
+              <p>Hinge at hips, keep flat spine. Raise weights horizontally to squeeze rear deltoids. Control eccentric return.</p>
+              <div class="showroom-metric text-shoulder">Target: Posterior Deltoids</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels (Local Absolute File Path) -->
+        <div class="ref-image-panel border-sh">
+          <div class="ref-image-header bg-sh-header">
+            <h3 class="text-shoulder">📸 Reference Visualization</h3>
+            <span>SHOULDER STRETCHES &amp; ANATOMY</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/muscle_anatomy.png" alt="Muscle Anatomy Chart" />
+            <div class="image-caption">Futuristic 3D Muscle Anatomy Model with Highlighted Accent Groups</div>
+          </div>
+        </div>
+
+        <!-- Vocabulary Section -->
+        <div class="vocab-section border-sh">
+          <h3 class="text-shoulder">📖 Vocabulary / शब्दार्थ</h3>
+          <p>SHOULDER WORKOUT — Important Gym Terms translated from English to Marathi</p>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Shoulder')">
+                  <td>Shoulder</td>
+                  <td>खांदा</td>
+                  <td>The joint connecting arm to torso</td>
+                </tr>
+                <tr onclick="speakWord('Dumbbell')">
+                  <td>Dumbbell</td>
+                  <td>डम्बेल (हाताचे वजन)</td>
+                  <td>Short bar with weights at each end</td>
+                </tr>
+                <tr onclick="speakWord('Barbell')">
+                  <td>Barbell</td>
+                  <td>बार्बेल (लांब वजनाची रॉड)</td>
+                  <td>Long metal rod for heavy weights</td>
+                </tr>
+                <tr onclick="speakWord('Deltoid')">
+                  <td>Deltoid</td>
+                  <td>डेल्टॉइड स्नायू (खांद्याचा स्नायू)</td>
+                  <td>Three-headed muscle of the shoulder</td>
+                </tr>
+                <tr onclick="speakWord('Trapezius')">
+                  <td>Trapezius</td>
+                  <td>ट्रॅपेझियस (मानेमागचा स्नायू)</td>
+                  <td>Upper back and neck muscle</td>
+                </tr>
+                <tr onclick="speakWord('Lateral')">
+                  <td>Lateral</td>
+                  <td>बाजूचा / साईडचा</td>
+                  <td>Movement outwards towards the side</td>
+                </tr>
+                <tr onclick="speakWord('Overhead')">
+                  <td>Overhead</td>
+                  <td>डोक्यावर</td>
+                  <td>Above the height of your head</td>
+                </tr>
+                <tr onclick="speakWord('Momentum')">
+                  <td>Momentum</td>
+                  <td>गती / झटका</td>
+                  <td>Using swing force instead of muscle</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TRICEPS WORKOUT ==================== -->
+      <section id="triceps" class="workout-section">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-triceps">Triceps Workout</h2>
+            <div class="section-subtitle">Triceps Brachii (Long, Lateral & Medial Heads) • Anconeus</div>
+          </div>
+          <div class="section-badge-progress badge-triceps" id="progress-badge-triceps">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-triceps"></div>Triceps Brachii</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Anconeus</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-triceps" data-name="triceps pushdown" data-equip="cable" data-muscle="triceps brachii">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-tr-1" onchange="trackProgress('tr-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">Triceps Pushdown</div>
+              <button class="ex-video-btn" onclick="openVideoModal('tr-1', 'Triceps Pushdown')">▶ Form Guide</button>
+              <span class="ex-badge badge-tr">CABLE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand elbows close to sides; grasp rope attachment.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Push the rope down until arms are fully extended.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly return to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>All Three Triceps Heads</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-triceps" data-name="seated barbell extension" data-equip="barbell" data-muscle="long head of triceps">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-tr-2" onchange="trackProgress('tr-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Seated Barbell Extension</div>
+              <button class="ex-video-btn" onclick="openVideoModal('tr-2', 'Seated Barbell Extension')">▶ Form Guide</button>
+              <span class="ex-badge badge-tr">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit facing forward; grasp barbell with overhand grip.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Bending at elbows, lower barbell behind your head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly press back to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Long Head of Triceps</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-triceps" data-name="overhead triceps extension" data-equip="dumbbell" data-muscle="long head of triceps">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-tr-3" onchange="trackProgress('tr-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Overhead Triceps Extension</div>
+              <button class="ex-video-btn" onclick="openVideoModal('tr-3', 'Overhead Triceps Extension')">▶ Form Guide</button>
+              <span class="ex-badge badge-tr">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie flat on bench holding dumbbell with both hands over chest.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Keeping elbows stationary, slowly lower dumbbell behind head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly extend arms back to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Long Head of Triceps</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-triceps" data-name="one-arm dumbbell extension" data-equip="dumbbell" data-muscle="long head unilateral">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-tr-4" onchange="trackProgress('tr-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">One-Arm Dumbbell Extension</div>
+              <button class="ex-video-btn" onclick="openVideoModal('tr-4', 'One-Arm Dumbbell Extension')">▶ Form Guide</button>
+              <span class="ex-badge badge-tr">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Hold one dumbbell overhead with arm fully extended.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Keep elbow in and stationary.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Bending at elbow, slowly lower dumbbell behind head.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Long Head — Unilateral</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-triceps" data-name="dumbbell kickback" data-equip="dumbbell" data-muscle="lateral & medial triceps heads">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-tr-5" onchange="trackProgress('tr-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Dumbbell Kickback</div>
+              <button class="ex-video-btn" onclick="openVideoModal('tr-5', 'Dumbbell Kickback')">▶ Form Guide</button>
+              <span class="ex-badge badge-tr">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Place one knee on bench; lean forward holding dumbbell.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Grasp dumbbell with elbow bent and close to side.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Upper arm stationary, extend arm back until straight.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Lateral &amp; Medial Triceps Heads</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-triceps" data-name="dumbbell triceps extension" data-equip="dumbbell" data-muscle="all three triceps heads">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-tr-6" onchange="trackProgress('tr-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Dumbbell Triceps Extension</div>
+              <button class="ex-video-btn" onclick="openVideoModal('tr-6', 'Dumbbell Triceps Extension')">▶ Form Guide</button>
+              <span class="ex-badge badge-tr">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on back holding dumbbell above chest, arm fully extended.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Press dumbbell up by extending arm straight above chest.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Keep elbow stable to isolate the triceps.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>All Three Triceps Heads</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-tr">
+          <h3 class="text-triceps">⚡ Triceps Form &amp; Alignment Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-tr">
+              <div class="showroom-icon">👇</div>
+              <h4>Cable Pushdown Extension</h4>
+              <p>Keep elbows glued to ribs. Press rope down by flexing elbows only. Separate hands at bottom to fully activate outer head.</p>
+              <div class="showroom-metric text-triceps">Target: Lateral &amp; Medial Heads</div>
+            </div>
+            <div class="showroom-card card-glow-tr">
+              <div class="showroom-icon">☝️</div>
+              <h4>Overhead Dumbbell Extension</h4>
+              <p>Extend arms vertically. Keep upper arm completely locked and stationary. Lower weights deeply behind neck for a long-head stretch.</p>
+              <div class="showroom-metric text-triceps">Target: Long Head of Triceps</div>
+            </div>
+            <div class="showroom-card card-glow-tr">
+              <div class="showroom-icon">↩️</div>
+              <h4>Dumbbell Kickback Stroke</h4>
+              <p>Align upper arm parallel to torso. Extend elbow backward to straight locked position. Avoid dropping elbow during swing.</p>
+              <div class="showroom-metric text-triceps">Target: Lateral Head &amp; Anconeus</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vocab-section border-tr">
+          <h3 class="text-triceps">📖 Vocabulary / शब्दार्थ</h3>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Triceps')">
+                  <td>Triceps</td>
+                  <td>ट्रायसेप्स (दंडाच्या मागील स्नायू)</td>
+                  <td>Three-headed muscle on back of arm</td>
+                </tr>
+                <tr onclick="speakWord('Extension')">
+                  <td>Extension</td>
+                  <td>सरळ करणे / लांब करणे</td>
+                  <td>Straightening a joint to contract muscle</td>
+                </tr>
+                <tr onclick="speakWord('Pushdown')">
+                  <td>Pushdown</td>
+                  <td>खाली ढकलणे</td>
+                  <td>Pushing resistance downwards</td>
+                </tr>
+                <tr onclick="speakWord('Kickback')">
+                  <td>Kickback</td>
+                  <td>मागे फेकणे (किकबॅक)</td>
+                  <td>Extending arm backward from elbow</td>
+                </tr>
+                <tr onclick="speakWord('Stationary')">
+                  <td>Stationary</td>
+                  <td>स्थिर / न हलणारे</td>
+                  <td>Keeping a joint locked in position</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels -->
+        <div class="ref-image-panel border-tr">
+          <div class="ref-image-header bg-tr-header">
+            <h3 class="text-triceps">📸 Reference Visualization</h3>
+            <span>TRICEPS ISOLATION &amp; ANATOMY</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/triceps_muscle.png" alt="Triceps Anatomy Chart" />
+            <div class="image-caption">Futuristic 3D Muscle Anatomy Model with Highlighted Triceps Group</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== LEG WORKOUT ==================== -->
+      <section id="legs" class="workout-section">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-legs">Leg Workout</h2>
+            <div class="section-subtitle">Quadriceps • Hamstrings • Gluteals • Calves • Adductors & Abductors</div>
+          </div>
+          <div class="section-badge-progress badge-legs" id="progress-badge-legs">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-legs"></div>Quadriceps</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Gluteals</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Hamstrings</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Calves</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-legs" data-name="squat" data-equip="barbell" data-muscle="quadriceps gluteals hamstrings">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-1" onchange="trackProgress('lg-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">Squat</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-1', 'Squat')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp barbell behind neck; feet slightly wider than shoulder-width.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Lift off squat rack, step back and start squat.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly squat to position below parallel.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Keep back aligned and chest out.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">5</div>
+                <span>Slowly press back to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Quadriceps • Gluteals • Hamstrings</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-legs" data-name="front squat" data-equip="barbell" data-muscle="quadriceps vastus medialis">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-2" onchange="trackProgress('lg-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Front Squat</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-2', 'Front Squat')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Place barbell across front deltoids; elbows forward, palms up.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly bend down at hips, parallel to floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Keep back tight and heels flat on ground.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Press back up to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Quadriceps (Vastus Medialis emphasis)</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-legs" data-name="lunge" data-equip="barbell" data-muscle="quadriceps gluteals hamstrings">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-3" onchange="trackProgress('lg-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Lunge</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-3', 'Lunge')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Place barbell across shoulders behind neck.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Take a comfortable step forward while exhaling.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Leading knee should be directly over the foot.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Lower until lead leg thigh is parallel to floor.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Quadriceps • Gluteals • Hamstrings</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-legs" data-name="hack squat" data-equip="machine" data-muscle="quadriceps gluteals">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-4" onchange="trackProgress('lg-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">Hack Squat</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-4', 'Hack Squat')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">MACHINE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp bar handles; feet shoulder-width apart.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Keep head up and back against machine padding.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly bend knees until thighs parallel to floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Press back to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Quadriceps • Gluteals</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-legs" data-name="leg curl" data-equip="machine" data-muscle="hamstrings calves">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-5" onchange="trackProgress('lg-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Leg Curl</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-5', 'Leg Curl')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">MACHINE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie face down; both legs under lever pad.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly flex knees as far as you can; do not raise hips.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower heels back and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Hamstrings • Calves</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-legs" data-name="leg press" data-equip="machine" data-muscle="quadriceps gluteals hamstrings">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-6" onchange="trackProgress('lg-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Leg Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-6', 'Leg Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">MACHINE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit with back flat; place feet on foot plate.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Lower knees until thighs are at 90-degrees.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Press weight back up; do not lock knees.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Quadriceps • Gluteals • Hamstrings</span></div>
+          </div>
+
+          <!-- Exercise 7 -->
+          <div class="ex-card card-legs" data-name="leg extension" data-equip="machine" data-muscle="quadriceps">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-7" onchange="trackProgress('lg-7')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">07</div>
+              <div class="ex-name">Leg Extension</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-7', 'Leg Extension')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">MACHINE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit on machine; place legs under lever pad.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly raise legs until locked in straight position.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower weight and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Quadriceps</span></div>
+          </div>
+
+          <!-- Exercise 8 -->
+          <div class="ex-card card-legs" data-name="seated toe raise" data-equip="weight" data-muscle="calves soleus">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-lg-8" onchange="trackProgress('lg-8')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">08</div>
+              <div class="ex-name">Seated Toe Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('lg-8', 'Seated Toe Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-lg">WEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit with toes on toe block; barbell/dumbbell on knees.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly raise heels as high as possible.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Calves (Gastrocnemius • Soleus)</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-lg">
+          <h3 class="text-legs">⚡ Leg Form &amp; Alignment Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-lg">
+              <div class="showroom-icon">🦵</div>
+              <h4>Deep Barbell Squat</h4>
+              <p>Place bar on traps, feet shoulder-width. Drive hips down and back to parallel. Keep knees pushed out, heels grounded.</p>
+              <div class="showroom-metric text-legs">Target: Quadriceps &amp; Gluteals</div>
+            </div>
+            <div class="showroom-card card-glow-lg">
+              <div class="showroom-icon">🔄</div>
+              <h4>Forward Step Lunge</h4>
+              <p>Step forward. Lower hips until front thigh is parallel to ground. Keep leading knee aligned with mid-foot, torso upright.</p>
+              <div class="showroom-metric text-legs">Target: Hamstrings &amp; Gluteals</div>
+            </div>
+            <div class="showroom-card card-glow-lg">
+              <div class="showroom-icon">👣</div>
+              <h4>Seated Toe Raise Extension</h4>
+              <p>Secure knees under pad. Push toes down to raise heels. Squeeze calves at top, lower deeply for full extension.</p>
+              <div class="showroom-metric text-legs">Target: Soleus &amp; Gastrocnemius</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vocab-section border-lg">
+          <h3 class="text-legs">📖 Vocabulary / शब्दार्थ</h3>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Squat')">
+                  <td>Squat</td>
+                  <td>खाली बसणे (स्क्वॉट)</td>
+                  <td>Lowering hips from a standing position</td>
+                </tr>
+                <tr onclick="speakWord('Lunge')">
+                  <td>Lunge</td>
+                  <td>एक पाय पुढे टाकून खाली बसणे</td>
+                  <td>Stepping forward and lowering hips</td>
+                </tr>
+                <tr onclick="speakWord('Quadriceps')">
+                  <td>Quadriceps</td>
+                  <td>मांडीचे पुढील स्नायू</td>
+                  <td>Four-headed muscle on front of thigh</td>
+                </tr>
+                <tr onclick="speakWord('Hamstrings')">
+                  <td>Hamstrings</td>
+                  <td>मांडीचे मागील स्नायू</td>
+                  <td>Muscles on the back of the thigh</td>
+                </tr>
+                <tr onclick="speakWord('Calves')">
+                  <td>Calves</td>
+                  <td>पिंडऱ्या</td>
+                  <td>Muscles on lower back of leg</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels -->
+        <div class="ref-image-panel border-lg">
+          <div class="ref-image-header bg-lg-header">
+            <h3 class="text-legs">📸 Reference Visualization</h3>
+            <span>LEGS ISOLATION &amp; ANATOMY</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/legs_muscle.png" alt="Legs Anatomy Chart" />
+            <div class="image-caption">Futuristic 3D Muscle Anatomy Model with Highlighted Legs Group</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== ABS WORKOUT ==================== -->
+      <section id="abs" class="workout-section">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-abs">Abdominal Workout</h2>
+            <div class="section-subtitle">Rectus Abdominis • Obliques • Tensor Fasciae Latae • Hip Flexors</div>
+          </div>
+          <div class="section-badge-progress badge-abs" id="progress-badge-abs">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-abs"></div>Abdominals</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f5c518"></div>Obliques</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Tensor Fasciae Latae</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-abs" data-name="crunch" data-equip="bodyweight" data-muscle="rectus abdominis">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-1" onchange="trackProgress('ab-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">Crunch</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-1', 'Crunch')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on back, knees bent, feet flat, hands behind head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Using abdominal strength, curl upper torso and shoulder blades off floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Do not pull up too high or strain your neck.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Return to starting position without resting and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Rectus Abdominis</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-abs" data-name="decline crunch" data-equip="bench" data-muscle="rectus abdominis">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-2" onchange="trackProgress('ab-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Decline Crunch</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-2', 'Decline Crunch')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BENCH</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on back on decline bench; hook feet under roller pads.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Hands gently behind head (do not pull neck).</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Curl upper torso and shoulder blades off bench.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Do not curl too high; return and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Rectus Abdominis (increased range)</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-abs" data-name="raised leg crunch" data-equip="bench" data-muscle="upper abdominals">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-3" onchange="trackProgress('ab-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Raised Leg Crunch</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-3', 'Raised Leg Crunch')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BENCH</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on back, knees bent, calves across bench.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Arms and hands behind your head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Curl upper torso and shoulder blades off floor and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Upper Abdominals</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-abs" data-name="dumbbell side bend" data-equip="dumbbell" data-muscle="obliques internal & external">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-4" onchange="trackProgress('ab-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">Dumbbell Side Bend</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-4', 'Dumbbell Side Bend')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Hold dumbbell in right hand with arm hanging straight down.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly bend to the side, stretching opposite obliques.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Return to upright, repeat, then switch sides.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Obliques — Internal &amp; External</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-abs" data-name="crossover crunch" data-equip="bodyweight" data-muscle="obliques rectus abdominis">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-5" onchange="trackProgress('ab-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Crossover Crunch</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-5', 'Crossover Crunch')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on back, knees bent, hands behind head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Curl and rotate to one side, bringing opposite knee toward elbow.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Return to start, then switch sides.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Obliques • Rectus Abdominis</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-abs" data-name="hanging leg raise" data-equip="bar" data-muscle="lower abdominals hip flexors">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-6" onchange="trackProgress('ab-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Hanging Leg Raise</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-6', 'Hanging Leg Raise')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BAR</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Hang from pull-up bar, hands shoulder-width, knees slightly bent.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly pull knees or straight legs up toward chest using abs.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly return to starting position and repeat. Avoid swinging.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Lower Abdominals • Hip Flexors</span></div>
+          </div>
+
+          <!-- Exercise 7 -->
+          <div class="ex-card card-abs" data-name="seated twist" data-equip="barbell" data-muscle="obliques serratus">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-7" onchange="trackProgress('ab-7')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">07</div>
+              <div class="ex-name">Seated Twist</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-7', 'Seated Twist')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit on bench with wooden bar or light barbell on shoulders.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly rotate upper torso to one side as far as comfortable.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Return to center and rotate to opposite side.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Obliques • Serratus</span></div>
+          </div>
+
+          <!-- Exercise 8 -->
+          <div class="ex-card card-abs" data-name="seated knee up" data-equip="bench" data-muscle="lower abdominals hip flexors">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ab-8" onchange="trackProgress('ab-8')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">08</div>
+              <div class="ex-name">Seated Knee Up</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ab-8', 'Seated Knee Up')">▶ Form Guide</button>
+              <span class="ex-badge badge-ab">BENCH</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit on edge of bench, hands gripping sides, lean slightly backward.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Extend both legs out with a slight bend in knees.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly pull knees toward chest, contracting abs, and return.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Lower Abdominals • Hip Flexors</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-ab">
+          <h3 class="text-abs">⚡ Abdominal Form &amp; Alignment Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-ab">
+              <div class="showroom-icon">🔥</div>
+              <h4>Floor Crunch Roll</h4>
+              <p>Rest head in fingertips. Curl upper ribcage towards hips. Elevate shoulders off mat. Keep lower back firmly grounded.</p>
+              <div class="showroom-metric text-abs">Target: Upper Rectus Abdominis</div>
+            </div>
+            <div class="showroom-card card-glow-ab">
+              <div class="showroom-icon">🪜</div>
+              <h4>Hanging Leg Lift</h4>
+              <p>Hang statically. Use lower core strength to lift feet or knees parallel. Lower under concentric control without swinging.</p>
+              <div class="showroom-metric text-abs">Target: Lower Rectus Abdominis</div>
+            </div>
+            <div class="showroom-card card-glow-ab">
+              <div class="showroom-icon">🔄</div>
+              <h4>Side Twist Flexion</h4>
+              <p>Sit straight. Hold barbell across shoulders. Rotate torso left and right, squeezing side oblique wall.</p>
+              <div class="showroom-metric text-abs">Target: External Obliques</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vocab-section border-ab">
+          <h3 class="text-abs">📖 Vocabulary / शब्दार्थ</h3>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Abdominal')">
+                  <td>Abdominal</td>
+                  <td>पोटाचे स्नायू (ॲब्ज)</td>
+                  <td>Core muscles on front of stomach</td>
+                </tr>
+                <tr onclick="speakWord('Crunch')">
+                  <td>Crunch</td>
+                  <td>पोट वाकवणे (क्रंच)</td>
+                  <td>Flexing upper spine to contract abs</td>
+                </tr>
+                <tr onclick="speakWord('Obliques')">
+                  <td>Obliques</td>
+                  <td>तिरके स्नायू</td>
+                  <td>Side abdominal muscles</td>
+                </tr>
+                <tr onclick="speakWord('Decline')">
+                  <td>Decline</td>
+                  <td>उताराकडे / खाली झुकलेला</td>
+                  <td>Positioned head-downwards</td>
+                </tr>
+                <tr onclick="speakWord('Exhale')">
+                  <td>Exhale</td>
+                  <td>श्वास सोडणे</td>
+                  <td>Breathing air out of lungs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels -->
+        <div class="ref-image-panel border-ab">
+          <div class="ref-image-header bg-ab-header">
+            <h3 class="text-abs">📸 Reference Visualization</h3>
+            <span>ABS ISOLATION &amp; ANATOMY</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/abs_muscle.png" alt="Abs Anatomy Chart" />
+            <div class="image-caption">Futuristic 3D Muscle Anatomy Model with Highlighted Abdominal Group</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== BACK WORKOUT ==================== -->
+      <section id="back" class="workout-section">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-back">Back Workout</h2>
+            <div class="section-subtitle">Latissimus Dorsi • Trapezius • Rhomboids • Teres Major • Erector Spinae</div>
+          </div>
+          <div class="section-badge-progress badge-back" id="progress-badge-back">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-back"></div>Rhomboids</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Trapezius</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Latissimus Dorsi</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>Erector Spinae</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-back" data-name="one-arm dumbbell row" data-equip="dumbbell" data-muscle="latissimus dorsi rhomboids teres major">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-1" onchange="trackProgress('bk-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">One-Arm Dumbbell Row</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-1', 'One-Arm Dumbbell Row')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp dumbbell in right hand; place left knee and left hand flat on bench.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull elbow high and back, rowing dumbbell toward your hip.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Squeeze back muscles at peak for a count.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Slowly lower to starting position and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Latissimus Dorsi • Rhomboids • Teres Major</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-back" data-name="front chin-up" data-equip="bodyweight" data-muscle="latissimus dorsi biceps">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-2" onchange="trackProgress('bk-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Front Chin-Up</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-2', 'Front Chin-Up')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp bar with an underhand grip (palms facing you).</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Engage lats and pull your body up until chin clears the bar.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower to starting position under control.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Latissimus Dorsi • Biceps</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-back" data-name="upright row" data-equip="barbell" data-muscle="trapezius rear deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-3" onchange="trackProgress('bk-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Upright Row</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-3', 'Upright Row')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp barbell overhand, slightly narrower than shoulder-width.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull bar straight up toward chin, keeping elbows high.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower bar to starting position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Trapezius • Rear Deltoids</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-back" data-name="t-bar row" data-equip="machine" data-muscle="latissimus dorsi rhomboids trapezius">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-4" onchange="trackProgress('bk-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">T-Bar Row</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-4', 'T-Bar Row')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">MACHINE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp handles; stand with slightly bent knees and straight back.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull handles toward lower abs, squeezing shoulder blades together.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly return weight and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Latissimus Dorsi • Rhomboids • Trapezius</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-back" data-name="seated row" data-equip="cable" data-muscle="latissimus dorsi teres major erector spinae">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-5" onchange="trackProgress('bk-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Seated Row</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-5', 'Seated Row')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">CABLE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit with feet against support, knees slightly bent, back straight.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull handle until it touches lower abdominal area.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Squeeze shoulder blades, hold, and return slowly.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Latissimus Dorsi • Teres Major • Erector Spinae</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-back" data-name="bent-over row" data-equip="barbell" data-muscle="latissimus dorsi rhomboids teres major">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-6" onchange="trackProgress('bk-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Bent-Over Row</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-6', 'Bent-Over Row')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Grasp barbell overhand; bend forward until torso is almost parallel to floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull bar to lower abdomen; drive elbows up and back.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower bar under control and repeat.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Latissimus Dorsi • Rhomboids • Teres Major</span></div>
+          </div>
+
+          <!-- Exercise 7 -->
+          <div class="ex-card card-back" data-name="lat pulldown" data-equip="cable" data-muscle="latissimus dorsi biceps teres major">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-7" onchange="trackProgress('bk-7')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">07</div>
+              <div class="ex-name">Lat Pulldown (Front)</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-7', 'Lat Pulldown (Front)')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">CABLE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit with thighs secured under pads; grasp bar wide grip overhand.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull bar down to upper chest, driving elbows down and back.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly extend arms back to start position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Latissimus Dorsi • Biceps • Teres Major</span></div>
+          </div>
+
+          <!-- Exercise 8 -->
+          <div class="ex-card card-back" data-name="back extension" data-equip="machine" data-muscle="erector spinae gluteals">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bk-8" onchange="trackProgress('bk-8')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">08</div>
+              <div class="ex-name">Back Extension</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bk-8', 'Back Extension')">▶ Form Guide</button>
+              <span class="ex-badge badge-bk">MACHINE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Secure ankles under pads; rest hips on support with torso hanging down.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slowly raise torso by extending lower back until body is in straight line.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Slowly lower torso back to starting position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Erector Spinae • Gluteals</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-bk">
+          <h3 class="text-back">⚡ Back Form &amp; Alignment Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-bk">
+              <div class="showroom-icon">✈️</div>
+              <h4>Lat Pulldown Drive</h4>
+              <p>Keep shoulders depressed. Pull bar to upper chest, driving elbows down and backwards to flare lat wings.</p>
+              <div class="showroom-metric text-back">Target: Latissimus Dorsi &amp; Teres Major</div>
+            </div>
+            <div class="showroom-card card-glow-bk">
+              <div class="showroom-icon">🛶</div>
+              <h4>Bent-Over Row Stroke</h4>
+              <p>Hinge torso 45°. Row bar to lower abdomen, pulling with elbows. Squeeze shoulder blades together at peak.</p>
+              <div class="showroom-metric text-back">Target: Rhomboids &amp; Trapezius</div>
+            </div>
+            <div class="showroom-card card-glow-bk">
+              <div class="showroom-icon">🪵</div>
+              <h4>Hyper-Extension Arch</h4>
+              <p>Lower torso completely. Extend back up until spine forms a straight line. Avoid hyper-extending neck or spine.</p>
+              <div class="showroom-metric text-back">Target: Erector Spinae &amp; Glutes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vocab-section border-bk">
+          <h3 class="text-back">📖 Vocabulary / शब्दार्थ</h3>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Back')">
+                  <td>Back</td>
+                  <td>पाठ</td>
+                  <td>The posterior side of the torso</td>
+                </tr>
+                <tr onclick="speakWord('Row')">
+                  <td>Row</td>
+                  <td>ओढणे (रोइंग)</td>
+                  <td>Pulling weight towards body</td>
+                </tr>
+                <tr onclick="speakWord('Latissimus')">
+                  <td>Latissimus Dorsi</td>
+                  <td>पाठीचा सर्वात मोठा स्नायू (लॅट्स)</td>
+                  <td>Large wing-like muscle on sides of back</td>
+                </tr>
+                <tr onclick="speakWord('Rhomboids')">
+                  <td>Rhomboids</td>
+                  <td>चौकोनी स्नायू (रॉम्बॉइड्स)</td>
+                  <td>Upper back muscles between shoulder blades</td>
+                </tr>
+                <tr onclick="speakWord('Erector Spinae')">
+                  <td>Erector Spinae</td>
+                  <td>मणक्याला आधार देणारे स्नायू</td>
+                  <td>Lower back core muscles running along spine</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels -->
+        <div class="ref-image-panel border-bk">
+          <div class="ref-image-header bg-bk-header">
+            <h3 class="text-back">📸 Reference Visualization</h3>
+            <span>BACK ISOLATION &amp; ANATOMY</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/back_muscle.png" alt="Back Anatomy Chart" />
+            <div class="image-caption">Futuristic 3D Muscle Anatomy Model with Highlighted Back Group</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CHEST WORKOUT ==================== -->
+      <section id="chest" class="workout-section">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-chest">Chest Workout</h2>
+            <div class="section-subtitle">Pectoralis Major • Pectoralis Minor • Anterior Deltoids • Triceps Brachii</div>
+          </div>
+          <div class="section-badge-progress badge-chest" id="progress-badge-chest">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-chest"></div>Pectoralis Major</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Pectoralis Minor</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Triceps</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-chest" data-name="barbell bench press" data-equip="barbell" data-muscle="pectoralis major anterior deltoids triceps">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-1" onchange="trackProgress('ch-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">Barbell Bench Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-1', 'Barbell Bench Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie flat on bench; grasp barbell with a medium grip.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Unrack weight and lower the bar slowly to mid-chest.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Press bar upward until arms are fully extended.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">4</div>
+                <span>Keep feet flat on the floor for maximum stability.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Pectoralis Major • Anterior Deltoids • Triceps</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-chest" data-name="dumbbell flye" data-equip="dumbbell" data-muscle="pectoralis major">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-2" onchange="trackProgress('ch-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Dumbbell Flye</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-2', 'Dumbbell Flye')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie flat on bench; hold dumbbells above chest, palms facing.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slight bend in elbows, lower dumbbells to sides in wide arc.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Squeeze chest muscles to return dumbbells to starting position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Pectoralis Major (Outer Fibers)</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-chest" data-name="incline barbell press" data-equip="barbell" data-muscle="clavicular pectoralis upper chest">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-3" onchange="trackProgress('ch-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Incline Barbell Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-3', 'Incline Barbell Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on 30-45 degree incline bench; grasp bar wider than shoulders.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Lower bar under control to upper chest (clavicle).</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Push bar straight up to locked position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Clavicular Pectoralis (Upper Chest)</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-chest" data-name="decline barbell press" data-equip="barbell" data-muscle="sternocostal pectoralis lower chest">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-4" onchange="trackProgress('ch-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">Decline Barbell Press</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-4', 'Decline Barbell Press')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">BARBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie on decline bench; hook legs securely under pads.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Grasp bar overhand; lower under control to lower chest.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Press bar back up, contracting lower chest fibers.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Sternocostal Pectoralis (Lower Chest)</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-chest" data-name="cable crossover" data-equip="cable" data-muscle="pectoralis major inner chest">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-5" onchange="trackProgress('ch-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Cable Crossover</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-5', 'Cable Crossover')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">CABLE</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Stand between pulleys; grasp handles, lean slightly forward.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Pull hands down and together in front of waist in wide arc.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Control weight as it returns back to start position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Pectoralis Major (Inner Fibers)</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-chest" data-name="dumbbell pullover" data-equip="dumbbell" data-muscle="pectoralis major latissimus dorsi serratus">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-6" onchange="trackProgress('ch-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Dumbbell Pullover</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-6', 'Dumbbell Pullover')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">DUMBBELL</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie perpendicular across bench; hold single dumbbell above chest.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Slight bend in elbows, lower dumbbell backward over head.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Pull dumbbell back over chest to starting position.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Pectoralis Major • Latissimus Dorsi • Serratus</span></div>
+          </div>
+
+          <!-- Exercise 7 -->
+          <div class="ex-card card-chest" data-name="parallel bar dip" data-equip="bodyweight" data-muscle="lower chest triceps anterior deltoids">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-7" onchange="trackProgress('ch-7')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">07</div>
+              <div class="ex-name">Parallel Bar Dip</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-7', 'Parallel Bar Dip')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Support body on parallel bars; lean torso slightly forward.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Lower body by bending elbows until shoulders are below elbows.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Press back up using chest and triceps strength.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Lower Chest • Triceps • Anterior Delts</span></div>
+          </div>
+
+          <!-- Exercise 8 -->
+          <div class="ex-card card-chest" data-name="push up" data-equip="bodyweight" data-muscle="pectoralis major anterior delts core">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-ch-8" onchange="trackProgress('ch-8')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">08</div>
+              <div class="ex-name">Standard Push-up</div>
+              <button class="ex-video-btn" onclick="openVideoModal('ch-8', 'Standard Push-up')">▶ Form Guide</button>
+              <span class="ex-badge badge-ch">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Place hands shoulder-width apart; keep body in straight line.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Lower body until chest almost touches floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Push back up to starting position. Keep core tight.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Pectoralis Major • Anterior Delts • Core</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-ch">
+          <h3 class="text-chest">⚡ Chest Form &amp; Alignment Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-ch">
+              <div class="showroom-icon">🏋️</div>
+              <h4>Flat Bench Press Arc</h4>
+              <p>Lie flat, pull shoulder blades back and down. Push bar straight up from mid-chest. Avoid unlocking shoulder blades.</p>
+              <div class="showroom-metric text-chest">Target: Pectoralis Major (Mid-Lower)</div>
+            </div>
+            <div class="showroom-card card-glow-ch">
+              <div class="showroom-icon">🦅</div>
+              <h4>Dumbbell Flye Squeeze</h4>
+              <p>Open weights in a wide outward circular arc. Squeeze chest together at the peak like hugging a large barrel.</p>
+              <div class="showroom-metric text-chest">Target: Pectoralis Major (Outer-Inner)</div>
+            </div>
+            <div class="showroom-card card-glow-ch">
+              <div class="showroom-icon">📈</div>
+              <h4>Incline Bar Press Arc</h4>
+              <p>Anchor feet. Lower bar under control to upper chest (clavicle). Push vertically upwards to isolate upper chest head.</p>
+              <div class="showroom-metric text-chest">Target: Clavicular Pectoralis</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vocab-section border-ch">
+          <h3 class="text-chest">📖 Vocabulary / शब्दार्थ</h3>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Chest')">
+                  <td>Chest</td>
+                  <td>छाती</td>
+                  <td>The anterior surface of upper torso</td>
+                </tr>
+                <tr onclick="speakWord('Bench Press')">
+                  <td>Bench Press</td>
+                  <td>बेंच प्रेस (बाकावर वजन ढकलणे)</td>
+                  <td>Pressing weight while lying on a bench</td>
+                </tr>
+                <tr onclick="speakWord('Flye')">
+                  <td>Flye</td>
+                  <td>फ्लाय (हात पसरवून वजन उचलणे)</td>
+                  <td>Wide-arm isolation movement</td>
+                </tr>
+                <tr onclick="speakWord('Incline')">
+                  <td>Incline</td>
+                  <td>चढणारा उतार (वरच्या बाजूचा)</td>
+                  <td>Slanted upwards (30-45 degrees)</td>
+                </tr>
+                <tr onclick="speakWord('Decline')">
+                  <td>Decline</td>
+                  <td>उतरणारा उतार (खालच्या बाजूचा)</td>
+                  <td>Slanted downwards</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels -->
+        <div class="ref-image-panel border-ch">
+          <div class="ref-image-header bg-ch-header">
+            <h3 class="text-chest">📸 Reference Visualization</h3>
+            <span>CHEST ISOLATION &amp; ANATOMY</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/chest_muscle.png" alt="Chest Anatomy Chart" />
+            <div class="image-caption">Futuristic 3D Muscle Anatomy Model with Highlighted Chest Group</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== BONUS WORKOUT ==================== -->
+      <section id="bonus" class="workout-section">
+        <div class="section-watermark"></div>
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title text-bonus">Bonus Routine</h2>
+            <div class="section-subtitle">Cool Down • Flexibility • Core Stability • Deep Yoga Stretches</div>
+          </div>
+          <div class="section-badge-progress badge-bonus" id="progress-badge-bonus">0% Done</div>
+        </div>
+
+        <div class="muscle-legend">
+          <div class="legend-item"><div class="legend-dot bg-bonus"></div>Spine / Back</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Hamstrings</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Core Muscles</div>
+        </div>
+
+        <div class="exercise-grid">
+          <!-- Exercise 1 -->
+          <div class="ex-card card-bonus" data-name="cobra stretch bhujangasana" data-equip="yoga" data-muscle="spine core stretch">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bo-1" onchange="trackProgress('bo-1')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">01</div>
+              <div class="ex-name">Cobra Stretch (Bhujangasana)</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bo-1', 'Cobra Stretch (Bhujangasana)')">▶ Form Guide</button>
+              <span class="ex-badge badge-bo">YOGA</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Lie flat on your stomach; place hands under shoulders.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Press tops of feet into floor; slowly straighten arms to lift chest.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Keep shoulders depressed (down); hold pose and breathe for 15-30s.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Abdominals Stretch • Lower Spine Flexibility</span></div>
+          </div>
+
+          <!-- Exercise 2 -->
+          <div class="ex-card card-bonus" data-name="child's pose balasana" data-equip="yoga" data-muscle="lower back shoulder stretch">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bo-2" onchange="trackProgress('bo-2')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">02</div>
+              <div class="ex-name">Child's Pose (Balasana)</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bo-2', 'Child\'s Pose (Balasana)')">▶ Form Guide</button>
+              <span class="ex-badge badge-bo">YOGA</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Kneel on yoga mat, touch big toes; sit back on heels.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Fold torso forward, extending arms straight out in front.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Rest forehead on floor; breathe deeply and relax.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Lower Back • Lats &amp; Shoulder Stretch</span></div>
+          </div>
+
+          <!-- Exercise 3 -->
+          <div class="ex-card card-bonus" data-name="cat cow stretch" data-equip="bodyweight" data-muscle="spine mobility">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bo-3" onchange="trackProgress('bo-3')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">03</div>
+              <div class="ex-name">Cat-Cow Stretch</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bo-3', 'Cat-Cow Stretch')">▶ Form Guide</button>
+              <span class="ex-badge badge-bo">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Start on all fours; hands under shoulders, knees under hips.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Inhale, arch lower back down, lift chest and chin (Cow Pose).</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Exhale, round spine upward, pull chin to chest (Cat Pose).</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Spinal Flexion &amp; Extension Mobility</span></div>
+          </div>
+
+          <!-- Exercise 4 -->
+          <div class="ex-card card-bonus" data-name="downward facing dog adho mukha svanasana" data-equip="yoga" data-muscle="posterior chain hamstrings calves">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bo-4" onchange="trackProgress('bo-4')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">04</div>
+              <div class="ex-name">Downward-Facing Dog</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bo-4', 'Downward-Facing Dog')">▶ Form Guide</button>
+              <span class="ex-badge badge-bo">YOGA</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Start on hands and knees; tuck toes and press hips up and back.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Straighten legs, pressing heels down toward floor.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Keep spine long, shoulders wide; hold for 30 seconds.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Posterior Chain (Hamstrings • Calves • Back)</span></div>
+          </div>
+
+          <!-- Exercise 5 -->
+          <div class="ex-card card-bonus" data-name="seated hamstring fold" data-equip="bodyweight" data-muscle="hamstrings lower back flex">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bo-5" onchange="trackProgress('bo-5')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">05</div>
+              <div class="ex-name">Seated Hamstring Fold</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bo-5', 'Seated Hamstring Fold')">▶ Form Guide</button>
+              <span class="ex-badge badge-bo">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Sit tall with legs extended straight in front of you.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Hinge at hips, reach hands forward towards toes.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Breathe deeply into the hamstrings; hold for 20-30s.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Hamstrings &amp; Lower Spine Decompression</span></div>
+          </div>
+
+          <!-- Exercise 6 -->
+          <div class="ex-card card-bonus" data-name="forearm plank core hold" data-equip="bodyweight" data-muscle="core rectus abdominis transversus">
+            <div class="ex-card-header">
+              <label class="checkbox-container">
+                <input type="checkbox" id="check-bo-6" onchange="trackProgress('bo-6')">
+                <span class="checkmark"></span>
+              </label>
+              <div class="ex-num">06</div>
+              <div class="ex-name">Forearm Plank</div>
+              <button class="ex-video-btn" onclick="openVideoModal('bo-6', 'Forearm Plank')">▶ Form Guide</button>
+              <span class="ex-badge badge-bo">BODYWEIGHT</span>
+            </div>
+            <div class="ex-steps">
+              <div class="step-item">
+                <div class="step-dot">1</div>
+                <span>Rest forearms on floor, shoulders aligned over elbows.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">2</div>
+                <span>Extend legs behind you, raising body into straight line.</span>
+              </div>
+              <div class="step-item">
+                <div class="step-dot">3</div>
+                <span>Engage abs, glutes, and thighs; hold statically for 30-60s.</span>
+              </div>
+            </div>
+            <div class="ex-muscles">Target: <span>Transversus Abdominis (Deep Core) • Gluteals</span></div>
+          </div>
+        </div>
+
+        <!-- Visual Form Showroom (Replacing Pro Tips text) -->
+        <div class="tips-box border-bo">
+          <h3 class="text-bonus">⚡ Zen Flexibility &amp; Posture Showroom</h3>
+          <div class="showroom-grid">
+            <div class="showroom-card card-glow-bo">
+              <div class="showroom-icon">🧘</div>
+              <h4>Cobra Pose Arch</h4>
+              <p>Lie down, place hands close to ribs. Straighten arms to lift chest. Squeeze lower glutes and stretch abs wall.</p>
+              <div class="showroom-metric text-bonus">Target: Spinal Arch &amp; Abs Stretch</div>
+            </div>
+            <div class="showroom-card card-glow-bo">
+              <div class="showroom-icon">🏠</div>
+              <h4>Child's Pose Decompression</h4>
+              <p>Kneel and sit on heels. Stretch arms forward, lowering chest to knees. Focus on slow, deep belly breathing.</p>
+              <div class="showroom-metric text-bonus">Target: Lat &amp; Spine Decompression</div>
+            </div>
+            <div class="showroom-card card-glow-bo">
+              <div class="showroom-icon">🛹</div>
+              <h4>Forearm Isometric Plank</h4>
+              <p>Anchor forearms parallel. Hold spine completely straight from heels to head. Lock abs statically without sagging.</p>
+              <div class="showroom-metric text-bonus">Target: Transversus &amp; Core Core</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reference Images Panels (Local Absolute File Path) -->
+        <div class="ref-image-panel border-bo">
+          <div class="ref-image-header bg-bo-header">
+            <h3 class="text-bonus">🧘 Zen &amp; Alignment Art</h3>
+            <span>FLEXIBILITY &amp; COOL DOWN VIBES</span>
+          </div>
+          <div class="ref-image-body">
+            <img class="lazy-image" src="assets/yoga_stretching.png" alt="Yoga Stretching Chart" />
+            <div class="image-caption">Sunset Orange Zen Meditative Alignment Guide</div>
+          </div>
+        </div>
+
+        <div class="vocab-section border-bo">
+          <h3 class="text-bonus">📖 Vocabulary / शब्दार्थ</h3>
+          <div class="vocab-table-wrapper">
+            <table class="vocab-table">
+              <thead>
+                <tr>
+                  <th>English Word</th>
+                  <th>Marathi Meaning</th>
+                  <th>Definition / Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="speakWord('Flexibility')">
+                  <td>Flexibility</td>
+                  <td>लवचिकता</td>
+                  <td>The range of motion in a joint</td>
+                </tr>
+                <tr onclick="speakWord('Stretching')">
+                  <td>Stretching</td>
+                  <td>स्नायू ताणणे (स्ट्रेचिंग)</td>
+                  <td>Elongating muscles to improve flexibility</td>
+                </tr>
+                <tr onclick="speakWord('Cobra Pose')">
+                  <td>Cobra Pose</td>
+                  <td>भुजंगासन (नाग पोझ)</td>
+                  <td>A back-bending yoga posture</td>
+                </tr>
+                <tr onclick="speakWord('Child Pose')">
+                  <td>Child's Pose</td>
+                  <td>बालासन (मूल पोझ)</td>
+                  <td>A resting stretch posture</td>
+                </tr>
+                <tr onclick="speakWord('Plank')">
+                  <td>Plank</td>
+                  <td>प्लँक (फळीसारखे स्थिर राहणे)</td>
+                  <td>Isometric core strength posture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== PLANNER & LOGS SECTION ==================== -->
+      <section id="planner" class="workout-section">
+        <div class="section-intro">
+          <div class="title-wrap">
+            <h2 class="section-title" style="color:var(--legs)">Weekly Planner &amp; Training Logs</h2>
+            <div class="section-subtitle">Plan routines, track weekly analytics, and log training notes</div>
+          </div>
+        </div>
+
+        <div class="planner-layout-grid">
+          <!-- Left Widget: Weekly Planner Grid -->
+          <div class="planner-card">
+            <h3>📅 Weekly Training Schedule</h3>
+            <p class="planner-desc">Select planned target routines for each day of the week:</p>
+            
+            <div class="week-inputs-grid">
+              <div class="day-input-row">
+                <span class="day-label">Monday</span>
+                <select class="plan-select" id="plan-day-mon" onchange="saveWeeklyPlan()">
+                  <option value="rest">🧘 Rest / Recovery</option>
+                  <option value="shoulder">💪 Shoulder Workout</option>
+                  <option value="triceps">🦾 Triceps Workout</option>
+                  <option value="legs">🦵 Leg Workout</option>
+                  <option value="abs">🔥 Abdominal Workout</option>
+                  <option value="back">🏋️ Back Workout</option>
+                  <option value="chest" selected>💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-mon" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+              <div class="day-input-row">
+                <span class="day-label">Tuesday</span>
+                <select class="plan-select" id="plan-day-tue" onchange="saveWeeklyPlan()">
+                  <option value="rest">🧘 Rest / Recovery</option>
+                  <option value="shoulder">💪 Shoulder Workout</option>
+                  <option value="triceps" selected>🦾 Triceps Workout</option>
+                  <option value="legs">🦵 Leg Workout</option>
+                  <option value="abs">🔥 Abdominal Workout</option>
+                  <option value="back">🏋️ Back Workout</option>
+                  <option value="chest">💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-tue" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+              <div class="day-input-row">
+                <span class="day-label">Wednesday</span>
+                <select class="plan-select" id="plan-day-wed" onchange="saveWeeklyPlan()">
+                  <option value="rest">🧘 Rest / Recovery</option>
+                  <option value="shoulder">💪 Shoulder Workout</option>
+                  <option value="triceps">🦾 Triceps Workout</option>
+                  <option value="legs" selected>🦵 Leg Workout</option>
+                  <option value="abs">🔥 Abdominal Workout</option>
+                  <option value="back">🏋️ Back Workout</option>
+                  <option value="chest">💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-wed" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+              <div class="day-input-row">
+                <span class="day-label">Thursday</span>
+                <select class="plan-select" id="plan-day-thu" onchange="saveWeeklyPlan()">
+                  <option value="rest">🧘 Rest / Recovery</option>
+                  <option value="shoulder">💪 Shoulder Workout</option>
+                  <option value="triceps">🦾 Triceps Workout</option>
+                  <option value="legs">🦵 Leg Workout</option>
+                  <option value="abs" selected>🔥 Abdominal Workout</option>
+                  <option value="back">🏋️ Back Workout</option>
+                  <option value="chest">💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-thu" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+              <div class="day-input-row">
+                <span class="day-label">Friday</span>
+                <select class="plan-select" id="plan-day-fri" onchange="saveWeeklyPlan()">
+                  <option value="rest">🧘 Rest / Recovery</option>
+                  <option value="shoulder">💪 Shoulder Workout</option>
+                  <option value="triceps">🦾 Triceps Workout</option>
+                  <option value="legs">🦵 Leg Workout</option>
+                  <option value="abs">🔥 Abdominal Workout</option>
+                  <option value="back" selected>🏋️ Back Workout</option>
+                  <option value="chest">💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-fri" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+              <div class="day-input-row">
+                <span class="day-label">Saturday</span>
+                <select class="plan-select" id="plan-day-sat" onchange="saveWeeklyPlan()">
+                  <option value="rest">🧘 Rest / Recovery</option>
+                  <option value="shoulder" selected>💪 Shoulder Workout</option>
+                  <option value="triceps">🦾 Triceps Workout</option>
+                  <option value="legs">🦵 Leg Workout</option>
+                  <option value="abs">🔥 Abdominal Workout</option>
+                  <option value="back">🏋️ Back Workout</option>
+                  <option value="chest">💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-sat" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+              <div class="day-input-row">
+                <span class="day-label">Sunday</span>
+                <select class="plan-select" id="plan-day-sun" onchange="saveWeeklyPlan()">
+                  <option value="rest" selected>🧘 Rest / Recovery</option>
+                  <option value="shoulder">💪 Shoulder Workout</option>
+                  <option value="triceps">🦾 Triceps Workout</option>
+                  <option value="legs">🦵 Leg Workout</option>
+                  <option value="abs">🔥 Abdominal Workout</option>
+                  <option value="back">🏋️ Back Workout</option>
+                  <option value="chest">💙 Chest Workout</option>
+                  <option value="bonus">🧘 Yoga &amp; Cool Down</option>
+                  <option value="custom">✏️ Custom Workout...</option>
+                </select>
+                <input type="text" class="plan-custom-input" id="plan-custom-sun" placeholder="Enter custom workout..." style="display:none;" oninput="saveWeeklyPlan()" />
+              </div>
+            </div>
+
+            <!-- Compare Trigger Button -->
+            <button class="compare-btn" onclick="generateWeeklyComparison()">📊 Compare Actual Workout Progress</button>
+
+            <!-- Planned vs Actual Display Panel -->
+            <div class="comparison-display" id="comparison-display-panel">
+              <p style="color:var(--muted); font-size:0.88rem; text-align:center;">Click the button above to calculate comparison analytics.</p>
+            </div>
+          </div>
+
+          <!-- Right Widget: Interactive Monthly Calendar & Note Logger -->
+          <div class="calendar-card">
+            <div class="calendar-header-dock">
+              <button class="cal-nav-btn" onclick="adjustMonth(-1)">◀</button>
+              <h3 id="calendar-month-year">June 2026</h3>
+              <button class="cal-nav-btn" onclick="adjustMonth(1)">▶</button>
+            </div>
+            
+            <!-- Calendar Days Grid -->
+            <div class="calendar-grid-wrap">
+              <div class="cal-day-header">Mon</div>
+              <div class="cal-day-header">Tue</div>
+              <div class="cal-day-header">Wed</div>
+              <div class="cal-day-header">Thu</div>
+              <div class="cal-day-header">Fri</div>
+              <div class="cal-day-header">Sat</div>
+              <div class="cal-day-header">Sun</div>
+              
+              <!-- Populated dynamically via JS -->
+              <div class="calendar-cells-grid" id="calendar-days-container"></div>
+            </div>
+
+            <!-- Note Logger Sub-panel -->
+            <div class="note-editor-panel" id="note-editor-panel">
+              <h4 id="note-selected-date">Click a date cell to log custom training notes</h4>
+              <div class="note-input-group">
+                <input type="number" id="note-body-weight" placeholder="Log body weight (kg)">
+                <textarea id="note-content" placeholder="Write weight lifted, reps, training sets, or personal notes..."></textarea>
+                <button class="save-note-btn" onclick="saveDayLog()">💾 Save Daily Gym Log</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Floating Audio Feedback & Pronunciation Panel -->
+    <div class="audio-feedback-indicator" id="audio-indicator">
+      <span class="audio-feedback-text" id="audio-text">Pronunciation Triggered</span>
+    </div>
+
+    <!-- YouTube Immersion Overlay Modal -->
+    <div class="video-modal-overlay" id="video-modal" onclick="closeVideoModal()">
+      <div class="video-modal-content" onclick="event.stopPropagation()">
+        <button class="video-modal-close" onclick="closeVideoModal()">×</button>
+        <h3 class="video-modal-title" id="video-modal-title">Form Demonstration Guide</h3>
+        <div class="video-iframe-container">
+          <iframe id="video-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="direct-video-link-dock" id="direct-video-link-dock" style="display:none; text-align:center; margin-top:8px;">
+          <a id="direct-video-link" href="" target="_blank" class="direct-watch-link">🔗 Watch Directly on YouTube ↗</a>
+        </div>
+        <div class="video-tips-container" id="video-modal-tips">
+          <h4>💡 Execution Tips:</h4>
+          <p id="video-modal-tips-text">Maintain absolute concentric control. Avoid rounding back, keep joints aligned, and breathe smoothly.</p>
+        </div>
+        <div class="custom-video-dock">
+          <label class="custom-video-label" for="custom-video-url">🔗 Add / Override YouTube Video Link:</label>
+          <div class="custom-video-inputs">
+            <input type="text" id="custom-video-url" class="custom-video-input" placeholder="Paste YouTube video URL here (e.g., https://youtu.be/...)" />
+            <button class="custom-video-btn save-btn" onclick="saveCustomVideo()">💾 Save Video</button>
+            <button class="custom-video-btn reset-btn" onclick="resetCustomVideo()">Reset Default</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Bottom Navigation Dashboard Summary -->
+    <footer class="footer-dock">
+      <div class="footer-metric">
+        <span class="footer-label">Checked Count</span>
+        <span class="footer-value" id="footer-checked-count">0/52 Completed</span>
+      </div>
+      <div class="footer-buttons">
+        <button class="footer-btn btn-secondary" onclick="resetAllProgress()">Reset Progress</button>
+        <button class="footer-btn btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to Top ↑</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
